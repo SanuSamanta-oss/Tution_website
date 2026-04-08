@@ -34,14 +34,19 @@ self.addEventListener("activate", event => {
 self.addEventListener("fetch", event => {
   event.respondWith(
     fetch(event.request)
-      .then(response => response)
+      .then(res => res)
       .catch(() => {
-        // If it's a page (HTML) → show your 404 page
+        // Handle HTML pages
         if (event.request.destination === "document") {
           return caches.match("./404.html");
         }
 
-        // For CSS, JS, images → try cache
+        // Handle CSS specifically
+        if (event.request.destination === "style") {
+          return caches.match("./404.css");
+        }
+
+        // Fallback: try cache anyway
         return caches.match(event.request);
       })
   );
