@@ -29,8 +29,20 @@ self.addEventListener("activate", event => {
   return self.clients.claim();
 });
 
+
+// 🔥 FIXED FETCH HANDLER (IMPORTANT)
 self.addEventListener("fetch", event => {
   event.respondWith(
-    fetch(event.request).catch(() => caches.match("./404.html"))
+    fetch(event.request)
+      .then(response => response)
+      .catch(() => {
+        // If it's a page (HTML) → show your 404 page
+        if (event.request.destination === "document") {
+          return caches.match("./404.html");
+        }
+
+        // For CSS, JS, images → try cache
+        return caches.match(event.request);
+      })
   );
 });
