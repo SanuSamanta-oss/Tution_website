@@ -1,0 +1,823 @@
+<!-- import { Hono } from 'hono'
+import { cors } from 'hono/cors'
+
+const app = new Hono()
+
+app.use('/api/*', cors()) -->
+
+<!-- // ============ MAIN PAGE ============
+app.get('/', (c) => {
+  return c.html(` -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Life Science & Biology Tuition | Expert Home Tutoring</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            poppins: ['Poppins', 'sans-serif'],
+            playfair: ['Playfair Display', 'serif'],
+          },
+          colors: {
+            primary: { 50:'#f0fdf4', 100:'#dcfce7', 200:'#bbf7d0', 300:'#86efac', 400:'#4ade80', 500:'#22c55e', 600:'#16a34a', 700:'#15803d', 800:'#166534', 900:'#14532d' },
+            accent: { 50:'#eff6ff', 100:'#dbeafe', 200:'#bfdbfe', 300:'#93c5fd', 400:'#60a5fa', 500:'#3b82f6', 600:'#2563eb', 700:'#1d4ed8', 800:'#1e40af', 900:'#1e3a5a' }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    * { scroll-behavior: smooth; }
+    body { font-family: 'Poppins', sans-serif; }
+    .hero-gradient { background: linear-gradient(135deg, #14532d 0%, #166534 30%, #15803d 60%, #1d4ed8 100%); }
+    .card-hover { transition: all 0.3s ease; }
+    .card-hover:hover { transform: translateY(-8px); box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); }
+    .quote-bg { background: linear-gradient(135deg, #1e3a5a 0%, #14532d 100%); }
+    .fee-badge { background: linear-gradient(135deg, #22c55e, #16a34a); }
+    .blob-shape { border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%; }
+    .animate-float { animation: float 6s ease-in-out infinite; }
+    @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
+    .section-divider { background: linear-gradient(90deg, transparent, #22c55e, transparent); height: 2px; }
+    .glass { background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2); }
+    .enrollment-modal { display: none; position: fixed; top:0; left:0; width:100%; height:100%; z-index:9999; background: rgba(0,0,0,0.6); backdrop-filter: blur(5px); align-items:center; justify-content:center; }
+    .enrollment-modal.active { display: flex; }
+    .pulse-btn { animation: pulse-glow 2s infinite; }
+    @keyframes pulse-glow { 0%,100% { box-shadow: 0 0 0 0 rgba(34,197,94,0.4); } 50% { box-shadow: 0 0 0 15px rgba(34,197,94,0); } }
+    .nav-scrolled { background: rgba(20,83,45,0.95) !important; backdrop-filter: blur(10px); box-shadow: 0 4px 20px rgba(0,0,0,0.3); }
+  </style>
+</head>
+<body class="bg-gray-50 font-poppins">
+
+  <!-- ====== NAVIGATION ====== -->
+  <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-transparent">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16 md:h-20">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 md:w-12 md:h-12 bg-white rounded-xl flex items-center justify-center shadow-lg">
+            <i class="fas fa-microscope text-primary-700 text-lg md:text-xl"></i>
+          </div>
+          <div>
+            <h1 class="text-white font-bold text-base md:text-lg leading-tight">BioLearn</h1>
+            <p class="text-green-200 text-[10px] md:text-xs">Life Science & Biology</p>
+          </div>
+        </div>
+        <!-- Desktop Nav -->
+        <div class="hidden md:flex items-center gap-6">
+          <a href="#home" class="text-white hover:text-green-300 transition text-sm font-medium">Home</a>
+          <a href="#courses" class="text-white hover:text-green-300 transition text-sm font-medium">Courses</a>
+          <a href="#class5to9" class="text-white hover:text-green-300 transition text-sm font-medium">Class 5-9</a>
+          <a href="#distance" class="text-white hover:text-green-300 transition text-sm font-medium">Distance Learning</a>
+          <a href="#about" class="text-white hover:text-green-300 transition text-sm font-medium">About</a>
+          <a href="#contact" class="bg-white text-primary-700 px-5 py-2 rounded-full text-sm font-semibold hover:bg-green-100 transition">Contact</a>
+        </div>
+        <!-- Mobile Menu Button -->
+        <button id="mobileMenuBtn" class="md:hidden text-white text-2xl">
+          <i class="fas fa-bars"></i>
+        </button>
+      </div>
+    </div>
+    <!-- Mobile Nav -->
+    <div id="mobileMenu" class="hidden md:hidden bg-primary-900/95 backdrop-blur-lg border-t border-green-700">
+      <div class="px-4 py-4 space-y-3">
+        <a href="#home" class="block text-white hover:text-green-300 py-2 text-sm" onclick="closeMobileMenu()">Home</a>
+        <a href="#courses" class="block text-white hover:text-green-300 py-2 text-sm" onclick="closeMobileMenu()">Courses</a>
+        <a href="#class5to9" class="block text-white hover:text-green-300 py-2 text-sm" onclick="closeMobileMenu()">Class 5-9</a>
+        <a href="#distance" class="block text-white hover:text-green-300 py-2 text-sm" onclick="closeMobileMenu()">Distance Learning</a>
+        <a href="#about" class="block text-white hover:text-green-300 py-2 text-sm" onclick="closeMobileMenu()">About</a>
+        <a href="#contact" class="block bg-white text-primary-700 px-5 py-2 rounded-full text-sm font-semibold text-center" onclick="closeMobileMenu()">Contact</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ====== HERO SECTION ====== -->
+  <section id="home" class="hero-gradient min-h-screen flex items-center relative overflow-hidden">
+    <!-- Background decorative elements -->
+    <div class="absolute inset-0 overflow-hidden opacity-10">
+      <div class="absolute top-20 left-10 w-72 h-72 bg-green-300 blob-shape animate-float"></div>
+      <div class="absolute bottom-20 right-10 w-96 h-96 bg-blue-300 blob-shape animate-float" style="animation-delay: -3s;"></div>
+      <div class="absolute top-1/2 left-1/2 w-64 h-64 bg-green-200 blob-shape animate-float" style="animation-delay: -1.5s;"></div>
+    </div>
+    
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-16 relative z-10">
+      <div class="grid md:grid-cols-2 gap-12 items-center">
+        <div>
+          <div class="inline-flex items-center gap-2 bg-white/10 px-4 py-2 rounded-full mb-6">
+            <span class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
+            <span class="text-green-200 text-sm">Admissions Open for 2025-26</span>
+          </div>
+          <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight mb-6">
+            Master <span class="text-green-300">Life Science</span> & <span class="text-blue-300">Biology</span>
+          </h1>
+          <p class="text-lg md:text-xl text-green-100 mb-4 leading-relaxed">
+            Expert tuition for <strong>WBBSE</strong> & <strong>CBSE</strong> board students. Learn in <strong>Bengali</strong> & <strong>English</strong> with personalized attention.
+          </p>
+          <p class="text-green-200 mb-8">Class 5 to 12 | Science Group | All Boards Welcome</p>
+          <div class="flex flex-wrap gap-4">
+            <a href="#courses" class="pulse-btn bg-white text-primary-700 px-8 py-3.5 rounded-full font-semibold hover:bg-green-100 transition shadow-xl text-base">
+              <i class="fas fa-graduation-cap mr-2"></i>View Courses
+            </a>
+            <a href="#contact" class="glass text-white px-8 py-3.5 rounded-full font-semibold hover:bg-white/20 transition text-base">
+              <i class="fas fa-phone mr-2"></i>Contact Us
+            </a>
+          </div>
+          <!-- Stats -->
+          <div class="grid grid-cols-3 gap-4 mt-12">
+            <div class="text-center">
+              <div class="text-2xl md:text-3xl font-bold text-white">5+</div>
+              <div class="text-green-200 text-xs md:text-sm">Years Experience</div>
+            </div>
+            <div class="text-center border-x border-green-600">
+              <div class="text-2xl md:text-3xl font-bold text-white">500+</div>
+              <div class="text-green-200 text-xs md:text-sm">Students Taught</div>
+            </div>
+            <div class="text-center">
+              <div class="text-2xl md:text-3xl font-bold text-white">95%</div>
+              <div class="text-green-200 text-xs md:text-sm">Success Rate</div>
+            </div>
+          </div>
+        </div>
+        <div class="hidden md:flex justify-center">
+          <div class="relative">
+            <div class="w-80 h-80 lg:w-96 lg:h-96 bg-gradient-to-br from-green-400/20 to-blue-400/20 rounded-3xl rotate-6 absolute"></div>
+            <div class="w-80 h-80 lg:w-96 lg:h-96 bg-white/10 backdrop-blur-sm rounded-3xl flex flex-col items-center justify-center p-8 relative border border-white/20">
+              <i class="fas fa-dna text-7xl text-green-300 mb-6 animate-float"></i>
+              <div class="text-center">
+                <h3 class="text-white text-xl font-bold mb-2">Life Science & Biology</h3>
+                <p class="text-green-200 text-sm mb-4">WBBSE & CBSE Board</p>
+                <div class="flex gap-3 justify-center">
+                  <span class="bg-green-500/20 text-green-200 px-3 py-1 rounded-full text-xs">Bengali</span>
+                  <span class="bg-blue-500/20 text-blue-200 px-3 py-1 rounded-full text-xs">English</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Wave Divider -->
+    <div class="absolute bottom-0 left-0 right-0">
+      <svg viewBox="0 0 1440 100" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill="#f9fafb" d="M0,40 C360,100 1080,0 1440,60 L1440,100 L0,100 Z"/></svg>
+    </div>
+  </section>
+
+  <!-- ====== QUOTE SECTION ====== -->
+  <section class="py-12 md:py-16 bg-gray-50">
+    <div class="max-w-4xl mx-auto px-4 text-center">
+      <div class="quote-bg rounded-2xl md:rounded-3xl p-8 md:p-12 text-white relative overflow-hidden">
+        <div class="absolute top-4 left-6 text-6xl md:text-8xl text-white/10 font-playfair">"</div>
+        <i class="fas fa-quote-left text-green-400 text-2xl md:text-3xl mb-4 block"></i>
+        <p class="text-xl md:text-2xl lg:text-3xl font-playfair italic leading-relaxed mb-6">
+          "Great dreams of great dreamers are always transcended"
+        </p>
+        <div class="flex items-center justify-center gap-3">
+          <div class="w-12 h-0.5 bg-green-400"></div>
+          <p class="text-green-300 font-semibold text-base md:text-lg">Dr. A.P.J Abdul Kalam</p>
+          <div class="w-12 h-0.5 bg-green-400"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== COURSES SECTION - CLASS 10 & 12 ====== -->
+  <section id="courses" class="py-16 md:py-24 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12 md:mb-16">
+        <span class="inline-block bg-primary-100 text-primary-700 px-4 py-1.5 rounded-full text-sm font-medium mb-4">
+          <i class="fas fa-book-open mr-1"></i> Our Courses
+        </span>
+        <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">Class 10th & 12th Programs</h2>
+        <p class="text-gray-500 max-w-2xl mx-auto">Specialized coaching in Life Science & Biology for both WBBSE and CBSE board students. Learn in Bengali or English as per your comfort.</p>
+      </div>
+
+      <!-- Class 10th Cards -->
+      <div class="mb-12">
+        <h3 class="text-xl md:text-2xl font-bold text-gray-800 mb-6 flex items-center gap-3">
+          <span class="w-10 h-10 bg-primary-100 rounded-lg flex items-center justify-center">
+            <i class="fas fa-seedling text-primary-600"></i>
+          </span>
+          Class 10th - Life Science (জীবন বিজ্ঞান)
+        </h3>
+        <div class="grid md:grid-cols-2 gap-6 md:gap-8">
+          <!-- WBBSE Class 10 -->
+          <div class="bg-white rounded-2xl shadow-lg card-hover overflow-hidden border border-gray-100">
+            <div class="bg-gradient-to-r from-primary-600 to-primary-700 p-5 md:p-6">
+              <div class="flex items-center justify-between">
+                <div>
+                  <span class="bg-white/20 text-white text-xs px-3 py-1 rounded-full">WBBSE Board</span>
+                  <h4 class="text-white text-xl md:text-2xl font-bold mt-3">Life Science</h4>
+                  <p class="text-green-100 text-sm">Class 10 | মাধ্যমিক</p>
+                </div>
+                <div class="text-right">
+                  <div class="fee-badge text-white px-4 py-2 rounded-xl text-center">
+                    <div class="text-2xl md:text-3xl font-bold">&#8377;500</div>
+                    <div class="text-xs opacity-90">per month</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="p-5 md:p-6">
+              <ul class="space-y-3 mb-6">
+                <li class="flex items-start gap-3"><i class="fas fa-check-circle text-primary-500 mt-1"></i><span class="text-gray-600 text-sm">Complete WBBSE syllabus coverage</span></li>
+                <li class="flex items-start gap-3"><i class="fas fa-check-circle text-primary-500 mt-1"></i><span class="text-gray-600 text-sm">Bengali & English medium teaching</span></li>
+                <li class="flex items-start gap-3"><i class="fas fa-check-circle text-primary-500 mt-1"></i><span class="text-gray-600 text-sm">Chapter-wise notes & practice questions</span></li>
+                <li class="flex items-start gap-3"><i class="fas fa-check-circle text-primary-500 mt-1"></i><span class="text-gray-600 text-sm">Model question papers & mock tests</span></li>
+                <li class="flex items-start gap-3"><i class="fas fa-check-circle text-primary-500 mt-1"></i><span class="text-gray-600 text-sm">Doubt clearing sessions</span></li>
+              </ul>
+              <button onclick="openEnrollModal('Class 10th Life Science', 'WBBSE', '500')" class="w-full bg-primary-600 text-white py-3 rounded-xl font-semibold hover:bg-primary-700 transition flex items-center justify-center gap-2">
+                <i class="fas fa-user-plus"></i> Enroll Now
+              </button>
+            </div>
+          </div>
+
+          <!-- CBSE Class 10 -->
+          <div class="bg-white rounded-2xl shadow-lg card-hover overflow-hidden border border-gray-100">
+            <div class="bg-gradient-to-r from-accent-600 to-accent-700 p-5 md:p-6">
+              <div class="flex items-center justify-between">
+                <div>
+                  <span class="bg-white/20 text-white text-xs px-3 py-1 rounded-full">CBSE Board</span>
+                  <h4 class="text-white text-xl md:text-2xl font-bold mt-3">Life Science</h4>
+                  <p class="text-blue-100 text-sm">Class 10 | Secondary</p>
+                </div>
+                <div class="text-right">
+                  <div class="bg-gradient-to-br from-blue-500 to-blue-600 text-white px-4 py-2 rounded-xl text-center">
+                    <div class="text-2xl md:text-3xl font-bold">&#8377;700</div>
+                    <div class="text-xs opacity-90">per month</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="p-5 md:p-6">
+              <ul class="space-y-3 mb-6">
+                <li class="flex items-start gap-3"><i class="fas fa-check-circle text-accent-500 mt-1"></i><span class="text-gray-600 text-sm">Complete CBSE syllabus coverage</span></li>
+                <li class="flex items-start gap-3"><i class="fas fa-check-circle text-accent-500 mt-1"></i><span class="text-gray-600 text-sm">Bengali & English medium teaching</span></li>
+                <li class="flex items-start gap-3"><i class="fas fa-check-circle text-accent-500 mt-1"></i><span class="text-gray-600 text-sm">NCERT based detailed study material</span></li>
+                <li class="flex items-start gap-3"><i class="fas fa-check-circle text-accent-500 mt-1"></i><span class="text-gray-600 text-sm">Previous year question paper analysis</span></li>
+                <li class="flex items-start gap-3"><i class="fas fa-check-circle text-accent-500 mt-1"></i><span class="text-gray-600 text-sm">Regular tests & performance tracking</span></li>
+              </ul>
+              <button onclick="openEnrollModal('Class 10th Life Science', 'CBSE', '700')" class="w-full bg-accent-600 text-white py-3 rounded-xl font-semibold hover:bg-accent-700 transition flex items-center justify-center gap-2">
+                <i class="fas fa-user-plus"></i> Enroll Now
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Class 12th Cards -->
+      <div>
+        <h3 class="text-xl md:text-2xl font-bold text-gray-800 mb-6 flex items-center gap-3">
+          <span class="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center">
+            <i class="fas fa-dna text-purple-600"></i>
+          </span>
+          Class 12th - Biology (জীববিদ্যা)
+        </h3>
+        <div class="grid md:grid-cols-2 gap-6 md:gap-8">
+          <!-- WBBSE Class 12 -->
+          <div class="bg-white rounded-2xl shadow-lg card-hover overflow-hidden border border-gray-100">
+            <div class="bg-gradient-to-r from-purple-600 to-purple-700 p-5 md:p-6">
+              <div class="flex items-center justify-between">
+                <div>
+                  <span class="bg-white/20 text-white text-xs px-3 py-1 rounded-full">WBBSE Board</span>
+                  <h4 class="text-white text-xl md:text-2xl font-bold mt-3">Biology</h4>
+                  <p class="text-purple-100 text-sm">Class 12 | উচ্চমাধ্যমিক</p>
+                </div>
+                <div class="text-right">
+                  <div class="bg-gradient-to-br from-purple-500 to-purple-600 text-white px-4 py-2 rounded-xl text-center">
+                    <div class="text-2xl md:text-3xl font-bold">&#8377;700</div>
+                    <div class="text-xs opacity-90">per month</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="p-5 md:p-6">
+              <ul class="space-y-3 mb-6">
+                <li class="flex items-start gap-3"><i class="fas fa-check-circle text-purple-500 mt-1"></i><span class="text-gray-600 text-sm">Complete WBBSE HS Biology syllabus</span></li>
+                <li class="flex items-start gap-3"><i class="fas fa-check-circle text-purple-500 mt-1"></i><span class="text-gray-600 text-sm">Bengali & English medium teaching</span></li>
+                <li class="flex items-start gap-3"><i class="fas fa-check-circle text-purple-500 mt-1"></i><span class="text-gray-600 text-sm">Botany & Zoology detailed coverage</span></li>
+                <li class="flex items-start gap-3"><i class="fas fa-check-circle text-purple-500 mt-1"></i><span class="text-gray-600 text-sm">Diagram practice & lab preparation</span></li>
+                <li class="flex items-start gap-3"><i class="fas fa-check-circle text-purple-500 mt-1"></i><span class="text-gray-600 text-sm">HS exam focused preparation</span></li>
+              </ul>
+              <button onclick="openEnrollModal('Class 12th Biology', 'WBBSE', '700')" class="w-full bg-purple-600 text-white py-3 rounded-xl font-semibold hover:bg-purple-700 transition flex items-center justify-center gap-2">
+                <i class="fas fa-user-plus"></i> Enroll Now
+              </button>
+            </div>
+          </div>
+
+          <!-- CBSE Class 12 -->
+          <div class="bg-white rounded-2xl shadow-lg card-hover overflow-hidden border border-gray-100">
+            <div class="bg-gradient-to-r from-rose-600 to-rose-700 p-5 md:p-6">
+              <div class="flex items-center justify-between">
+                <div>
+                  <span class="bg-white/20 text-white text-xs px-3 py-1 rounded-full">CBSE Board</span>
+                  <h4 class="text-white text-xl md:text-2xl font-bold mt-3">Biology</h4>
+                  <p class="text-rose-100 text-sm">Class 12 | Senior Secondary</p>
+                </div>
+                <div class="text-right">
+                  <div class="bg-gradient-to-br from-rose-500 to-rose-600 text-white px-4 py-2 rounded-xl text-center">
+                    <div class="text-2xl md:text-3xl font-bold">&#8377;900</div>
+                    <div class="text-xs opacity-90">per month</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="p-5 md:p-6">
+              <ul class="space-y-3 mb-6">
+                <li class="flex items-start gap-3"><i class="fas fa-check-circle text-rose-500 mt-1"></i><span class="text-gray-600 text-sm">Complete CBSE Class 12 Biology syllabus</span></li>
+                <li class="flex items-start gap-3"><i class="fas fa-check-circle text-rose-500 mt-1"></i><span class="text-gray-600 text-sm">Bengali & English medium teaching</span></li>
+                <li class="flex items-start gap-3"><i class="fas fa-check-circle text-rose-500 mt-1"></i><span class="text-gray-600 text-sm">NCERT + reference book coverage</span></li>
+                <li class="flex items-start gap-3"><i class="fas fa-check-circle text-rose-500 mt-1"></i><span class="text-gray-600 text-sm">NEET foundation preparation</span></li>
+                <li class="flex items-start gap-3"><i class="fas fa-check-circle text-rose-500 mt-1"></i><span class="text-gray-600 text-sm">Board exam tips & strategies</span></li>
+              </ul>
+              <button onclick="openEnrollModal('Class 12th Biology', 'CBSE', '900')" class="w-full bg-rose-600 text-white py-3 rounded-xl font-semibold hover:bg-rose-700 transition flex items-center justify-center gap-2">
+                <i class="fas fa-user-plus"></i> Enroll Now
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== FEES COMPARISON TABLE ====== -->
+  <section class="py-12 bg-white">
+    <div class="max-w-4xl mx-auto px-4">
+      <div class="text-center mb-10">
+        <span class="inline-block bg-yellow-100 text-yellow-700 px-4 py-1.5 rounded-full text-sm font-medium mb-4">
+          <i class="fas fa-tags mr-1"></i> Fee Structure
+        </span>
+        <h2 class="text-2xl md:text-3xl font-bold text-gray-800">Complete Fee Overview</h2>
+      </div>
+      <div class="overflow-x-auto rounded-2xl shadow-lg border border-gray-200">
+        <table class="w-full">
+          <thead>
+            <tr class="bg-gradient-to-r from-primary-700 to-accent-700">
+              <th class="text-white text-left py-4 px-6 text-sm font-semibold">Course</th>
+              <th class="text-white text-center py-4 px-6 text-sm font-semibold">WBBSE</th>
+              <th class="text-white text-center py-4 px-6 text-sm font-semibold">CBSE</th>
+              <th class="text-white text-center py-4 px-6 text-sm font-semibold">Medium</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="border-b border-gray-100 hover:bg-green-50 transition">
+              <td class="py-4 px-6"><div class="font-semibold text-gray-800">Class 10th</div><div class="text-xs text-gray-500">Life Science (জীবন বিজ্ঞান)</div></td>
+              <td class="py-4 px-6 text-center"><span class="bg-green-100 text-green-700 px-3 py-1 rounded-full font-bold text-sm">&#8377;500/mo</span></td>
+              <td class="py-4 px-6 text-center"><span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full font-bold text-sm">&#8377;700/mo</span></td>
+              <td class="py-4 px-6 text-center text-sm text-gray-600">Bengali & English</td>
+            </tr>
+            <tr class="border-b border-gray-100 hover:bg-purple-50 transition">
+              <td class="py-4 px-6"><div class="font-semibold text-gray-800">Class 12th</div><div class="text-xs text-gray-500">Biology (জীববিদ্যা)</div></td>
+              <td class="py-4 px-6 text-center"><span class="bg-purple-100 text-purple-700 px-3 py-1 rounded-full font-bold text-sm">&#8377;700/mo</span></td>
+              <td class="py-4 px-6 text-center"><span class="bg-rose-100 text-rose-700 px-3 py-1 rounded-full font-bold text-sm">&#8377;900/mo</span></td>
+              <td class="py-4 px-6 text-center text-sm text-gray-600">Bengali & English</td>
+            </tr>
+            <tr class="border-b border-gray-100 hover:bg-orange-50 transition">
+              <td class="py-4 px-6"><div class="font-semibold text-gray-800">Class 5-9</div><div class="text-xs text-gray-500">All Science Subjects (সমস্ত বিজ্ঞান)</div></td>
+              <td colspan="2" class="py-4 px-6 text-center"><span class="bg-orange-100 text-orange-700 px-3 py-1 rounded-full font-bold text-sm">Decided after consultation</span></td>
+              <td class="py-4 px-6 text-center text-sm text-gray-600">Bengali & English</td>
+            </tr>
+            <tr class="hover:bg-teal-50 transition">
+              <td class="py-4 px-6"><div class="font-semibold text-gray-800">Distance Learning</div><div class="text-xs text-gray-500">For students living far away</div></td>
+              <td colspan="2" class="py-4 px-6 text-center"><span class="bg-teal-100 text-teal-700 px-3 py-1 rounded-full font-bold text-sm">Based on distance & board</span></td>
+              <td class="py-4 px-6 text-center text-sm text-gray-600">Bengali & English</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== CLASS 5-9 SECTION ====== -->
+  <section id="class5to9" class="py-16 md:py-24 bg-gradient-to-br from-orange-50 to-amber-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid md:grid-cols-2 gap-12 items-center">
+        <div>
+          <span class="inline-block bg-orange-100 text-orange-700 px-4 py-1.5 rounded-full text-sm font-medium mb-4">
+            <i class="fas fa-child mr-1"></i> Foundation Course
+          </span>
+          <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">
+            Class 5th to 9th<br><span class="text-orange-600">Science Group</span>
+          </h2>
+          <p class="text-gray-600 mb-6 leading-relaxed">
+            Building a strong foundation in all science subjects from an early age. We teach all science group subjects to young learners, nurturing curiosity and scientific thinking.
+          </p>
+          <p class="text-gray-600 mb-6 leading-relaxed">
+            শিশুদের বিজ্ঞানের প্রতি আগ্রহ তৈরি করে শক্তিশালী ভিত্তি গড়ে তোলা হয়। সমস্ত বিজ্ঞান বিষয় পড়ানো হয়।
+          </p>
+          
+          <div class="space-y-4 mb-8">
+            <div class="flex items-center gap-3 bg-white p-3 rounded-xl shadow-sm">
+              <div class="w-10 h-10 bg-orange-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                <i class="fas fa-flask text-orange-600"></i>
+              </div>
+              <div>
+                <h4 class="font-semibold text-gray-800 text-sm">All Science Subjects</h4>
+                <p class="text-xs text-gray-500">Physics, Chemistry, Biology, Environmental Science</p>
+              </div>
+            </div>
+            <div class="flex items-center gap-3 bg-white p-3 rounded-xl shadow-sm">
+              <div class="w-10 h-10 bg-orange-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                <i class="fas fa-language text-orange-600"></i>
+              </div>
+              <div>
+                <h4 class="font-semibold text-gray-800 text-sm">Bengali & English Medium</h4>
+                <p class="text-xs text-gray-500">Learn in the language you're comfortable with</p>
+              </div>
+            </div>
+            <div class="flex items-center gap-3 bg-white p-3 rounded-xl shadow-sm">
+              <div class="w-10 h-10 bg-orange-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                <i class="fas fa-users text-orange-600"></i>
+              </div>
+              <div>
+                <h4 class="font-semibold text-gray-800 text-sm">Small Batch Size</h4>
+                <p class="text-xs text-gray-500">Personal attention to every student</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-gradient-to-r from-orange-500 to-amber-500 p-5 rounded-2xl text-white">
+            <div class="flex items-start gap-3">
+              <i class="fas fa-info-circle text-xl mt-1"></i>
+              <div>
+                <h4 class="font-bold mb-1">Fees decided after consultation</h4>
+                <p class="text-sm text-orange-100">Call us to discuss the fee structure based on the class, subjects, and board. We offer affordable rates for young learners.</p>
+              </div>
+            </div>
+          </div>
+
+          <button onclick="openEnrollModal('Class 5-9 Science', 'All Boards', 'To be decided')" class="mt-6 bg-orange-600 text-white px-8 py-3.5 rounded-full font-semibold hover:bg-orange-700 transition shadow-lg flex items-center gap-2">
+            <i class="fas fa-phone"></i> Call for Details & Enroll
+          </button>
+        </div>
+
+        <div class="flex justify-center">
+          <div class="grid grid-cols-2 gap-4 max-w-sm">
+            <div class="bg-white p-5 rounded-2xl shadow-lg text-center card-hover">
+              <div class="w-14 h-14 bg-red-100 rounded-xl flex items-center justify-center mx-auto mb-3">
+                <i class="fas fa-atom text-red-500 text-2xl"></i>
+              </div>
+              <h4 class="font-semibold text-gray-800 text-sm">Physics</h4>
+              <p class="text-gray-400 text-xs mt-1">পদার্থবিদ্যা</p>
+            </div>
+            <div class="bg-white p-5 rounded-2xl shadow-lg text-center card-hover">
+              <div class="w-14 h-14 bg-blue-100 rounded-xl flex items-center justify-center mx-auto mb-3">
+                <i class="fas fa-vial text-blue-500 text-2xl"></i>
+              </div>
+              <h4 class="font-semibold text-gray-800 text-sm">Chemistry</h4>
+              <p class="text-gray-400 text-xs mt-1">রসায়ন</p>
+            </div>
+            <div class="bg-white p-5 rounded-2xl shadow-lg text-center card-hover">
+              <div class="w-14 h-14 bg-green-100 rounded-xl flex items-center justify-center mx-auto mb-3">
+                <i class="fas fa-leaf text-green-500 text-2xl"></i>
+              </div>
+              <h4 class="font-semibold text-gray-800 text-sm">Biology</h4>
+              <p class="text-gray-400 text-xs mt-1">জীববিদ্যা</p>
+            </div>
+            <div class="bg-white p-5 rounded-2xl shadow-lg text-center card-hover">
+              <div class="w-14 h-14 bg-teal-100 rounded-xl flex items-center justify-center mx-auto mb-3">
+                <i class="fas fa-globe-americas text-teal-500 text-2xl"></i>
+              </div>
+              <h4 class="font-semibold text-gray-800 text-sm">Env. Science</h4>
+              <p class="text-gray-400 text-xs mt-1">পরিবেশ বিদ্যা</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== DISTANCE LEARNING SECTION ====== -->
+  <section id="distance" class="py-16 md:py-24 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12">
+        <span class="inline-block bg-teal-100 text-teal-700 px-4 py-1.5 rounded-full text-sm font-medium mb-4">
+          <i class="fas fa-map-marker-alt mr-1"></i> Distance Learning
+        </span>
+        <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">Living Far Away? No Problem!</h2>
+        <p class="text-gray-500 max-w-2xl mx-auto">For students who live far from the teacher's location, we offer special arrangements. Fees are customized based on your distance and board.</p>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-6 md:gap-8 mb-10">
+        <div class="bg-gradient-to-br from-teal-50 to-cyan-50 p-6 md:p-8 rounded-2xl border border-teal-100 card-hover text-center">
+          <div class="w-16 h-16 bg-teal-100 rounded-2xl flex items-center justify-center mx-auto mb-5">
+            <i class="fas fa-route text-teal-600 text-2xl"></i>
+          </div>
+          <h4 class="font-bold text-gray-800 text-lg mb-2">Distance Based Fees</h4>
+          <p class="text-gray-500 text-sm">Fee structure is adjusted based on how far you live from the teaching location. Fair pricing for everyone.</p>
+        </div>
+        <div class="bg-gradient-to-br from-blue-50 to-indigo-50 p-6 md:p-8 rounded-2xl border border-blue-100 card-hover text-center">
+          <div class="w-16 h-16 bg-blue-100 rounded-2xl flex items-center justify-center mx-auto mb-5">
+            <i class="fas fa-school text-blue-600 text-2xl"></i>
+          </div>
+          <h4 class="font-bold text-gray-800 text-lg mb-2">Board Specific</h4>
+          <p class="text-gray-500 text-sm">Fees also vary based on the board (WBBSE / CBSE) you are enrolled in. CBSE has slightly higher rates.</p>
+        </div>
+        <div class="bg-gradient-to-br from-purple-50 to-pink-50 p-6 md:p-8 rounded-2xl border border-purple-100 card-hover text-center">
+          <div class="w-16 h-16 bg-purple-100 rounded-2xl flex items-center justify-center mx-auto mb-5">
+            <i class="fas fa-phone-alt text-purple-600 text-2xl"></i>
+          </div>
+          <h4 class="font-bold text-gray-800 text-lg mb-2">Call for Details</h4>
+          <p class="text-gray-500 text-sm">Simply call us and we'll work out the best fee plan for you based on your location and requirements.</p>
+        </div>
+      </div>
+
+      <div class="text-center">
+        <button onclick="openEnrollModal('Distance Learning', 'WBBSE/CBSE', 'As per distance & board')" class="bg-teal-600 text-white px-8 py-3.5 rounded-full font-semibold hover:bg-teal-700 transition shadow-lg inline-flex items-center gap-2">
+          <i class="fas fa-phone"></i> Call to Know Your Fee
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== WHY CHOOSE US / ABOUT ====== -->
+  <section id="about" class="py-16 md:py-24 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12 md:mb-16">
+        <span class="inline-block bg-primary-100 text-primary-700 px-4 py-1.5 rounded-full text-sm font-medium mb-4">
+          <i class="fas fa-star mr-1"></i> Why Choose Us
+        </span>
+        <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">Why Students Love Learning With Us</h2>
+      </div>
+
+      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div class="bg-white p-6 rounded-2xl shadow-md card-hover text-center">
+          <div class="w-16 h-16 bg-green-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
+            <i class="fas fa-chalkboard-teacher text-green-600 text-2xl"></i>
+          </div>
+          <h4 class="font-bold text-gray-800 mb-2">Personal Attention</h4>
+          <p class="text-gray-500 text-sm">Small batch sizes ensure every student gets individual focus and guidance.</p>
+        </div>
+        <div class="bg-white p-6 rounded-2xl shadow-md card-hover text-center">
+          <div class="w-16 h-16 bg-blue-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
+            <i class="fas fa-language text-blue-600 text-2xl"></i>
+          </div>
+          <h4 class="font-bold text-gray-800 mb-2">Bilingual Teaching</h4>
+          <p class="text-gray-500 text-sm">Classes available in both Bengali & English for maximum understanding.</p>
+        </div>
+        <div class="bg-white p-6 rounded-2xl shadow-md card-hover text-center">
+          <div class="w-16 h-16 bg-purple-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
+            <i class="fas fa-clipboard-check text-purple-600 text-2xl"></i>
+          </div>
+          <h4 class="font-bold text-gray-800 mb-2">Board Focused</h4>
+          <p class="text-gray-500 text-sm">Curriculum tailored for both WBBSE & CBSE board exam patterns.</p>
+        </div>
+        <div class="bg-white p-6 rounded-2xl shadow-md card-hover text-center">
+          <div class="w-16 h-16 bg-rose-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
+            <i class="fas fa-hand-holding-heart text-rose-600 text-2xl"></i>
+          </div>
+          <h4 class="font-bold text-gray-800 mb-2">Affordable Fees</h4>
+          <p class="text-gray-500 text-sm">Quality education at affordable prices. Starting from just &#8377;500/month.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== CONTACT SECTION ====== -->
+  <section id="contact" class="py-16 md:py-24 bg-white">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <span class="inline-block bg-primary-100 text-primary-700 px-4 py-1.5 rounded-full text-sm font-medium mb-4">
+        <i class="fas fa-envelope mr-1"></i> Get in Touch
+      </span>
+      <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">Ready to Start Learning?</h2>
+      <p class="text-gray-500 mb-10 max-w-xl mx-auto">Don't hesitate to reach out. We're here to help your child excel in science!</p>
+
+      <div class="grid md:grid-cols-3 gap-6 mb-10">
+        <div class="bg-gradient-to-br from-green-50 to-emerald-50 p-6 rounded-2xl border border-green-100">
+          <div class="w-14 h-14 bg-green-100 rounded-xl flex items-center justify-center mx-auto mb-4">
+            <i class="fas fa-phone text-green-600 text-xl"></i>
+          </div>
+          <h4 class="font-bold text-gray-800 mb-1">Call Us</h4>
+          <p class="text-gray-500 text-sm" id="contactPhone">Phone number coming soon</p>
+        </div>
+        <div class="bg-gradient-to-br from-blue-50 to-indigo-50 p-6 rounded-2xl border border-blue-100">
+          <div class="w-14 h-14 bg-blue-100 rounded-xl flex items-center justify-center mx-auto mb-4">
+            <i class="fas fa-clock text-blue-600 text-xl"></i>
+          </div>
+          <h4 class="font-bold text-gray-800 mb-1">Timings</h4>
+          <p class="text-gray-500 text-sm">Mon - Sat<br>4:00 PM - 9:00 PM</p>
+        </div>
+        <div class="bg-gradient-to-br from-purple-50 to-pink-50 p-6 rounded-2xl border border-purple-100">
+          <div class="w-14 h-14 bg-purple-100 rounded-xl flex items-center justify-center mx-auto mb-4">
+            <i class="fas fa-map-pin text-purple-600 text-xl"></i>
+          </div>
+          <h4 class="font-bold text-gray-800 mb-1">Location</h4>
+          <p class="text-gray-500 text-sm">Home Tuition<br>West Bengal, India</p>
+        </div>
+      </div>
+
+      <button onclick="openEnrollModal('General Inquiry', 'Any Board', 'N/A')" class="pulse-btn bg-primary-600 text-white px-10 py-4 rounded-full font-semibold text-lg hover:bg-primary-700 transition shadow-xl inline-flex items-center gap-3">
+        <i class="fas fa-user-plus text-xl"></i> Enroll Now
+      </button>
+    </div>
+  </section>
+
+  <!-- ====== FOOTER ====== -->
+  <footer class="bg-gray-900 text-gray-400 py-10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid md:grid-cols-3 gap-8 mb-8">
+        <div>
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-10 h-10 bg-primary-600 rounded-xl flex items-center justify-center">
+              <i class="fas fa-microscope text-white"></i>
+            </div>
+            <div>
+              <h3 class="text-white font-bold">BioLearn</h3>
+              <p class="text-xs text-gray-500">Life Science & Biology Tuition</p>
+            </div>
+          </div>
+          <p class="text-sm leading-relaxed">Expert tuition for Class 5-12 students. WBBSE & CBSE board. Bengali & English medium.</p>
+        </div>
+        <div>
+          <h4 class="text-white font-semibold mb-4">Quick Links</h4>
+          <ul class="space-y-2 text-sm">
+            <li><a href="#home" class="hover:text-green-400 transition"><i class="fas fa-chevron-right text-xs mr-2 text-green-500"></i>Home</a></li>
+            <li><a href="#courses" class="hover:text-green-400 transition"><i class="fas fa-chevron-right text-xs mr-2 text-green-500"></i>Courses & Fees</a></li>
+            <li><a href="#class5to9" class="hover:text-green-400 transition"><i class="fas fa-chevron-right text-xs mr-2 text-green-500"></i>Class 5-9</a></li>
+            <li><a href="#distance" class="hover:text-green-400 transition"><i class="fas fa-chevron-right text-xs mr-2 text-green-500"></i>Distance Learning</a></li>
+            <li><a href="#contact" class="hover:text-green-400 transition"><i class="fas fa-chevron-right text-xs mr-2 text-green-500"></i>Contact</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="text-white font-semibold mb-4">Courses Offered</h4>
+          <ul class="space-y-2 text-sm">
+            <li><i class="fas fa-seedling text-green-500 mr-2 text-xs"></i>Class 10 Life Science</li>
+            <li><i class="fas fa-dna text-purple-500 mr-2 text-xs"></i>Class 12 Biology</li>
+            <li><i class="fas fa-flask text-orange-500 mr-2 text-xs"></i>Class 5-9 Science</li>
+            <li><i class="fas fa-map-marker-alt text-teal-500 mr-2 text-xs"></i>Distance Learning</li>
+          </ul>
+        </div>
+      </div>
+      <div class="section-divider mb-6"></div>
+      <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+        <p class="text-xs text-gray-500">&copy; 2025 BioLearn Tuition. All rights reserved.</p>
+        <p class="text-xs text-gray-600 italic font-playfair">"Great dreams of great dreamers are always transcended" - Dr. A.P.J Abdul Kalam</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ====== ENROLLMENT MODAL ====== -->
+  <div id="enrollModal" class="enrollment-modal">
+    <div class="bg-white rounded-3xl shadow-2xl max-w-md w-full mx-4 overflow-hidden transform transition-all">
+      <div class="bg-gradient-to-r from-primary-600 to-accent-600 p-6 text-white relative">
+        <button onclick="closeEnrollModal()" class="absolute top-4 right-4 w-8 h-8 bg-white/20 rounded-full flex items-center justify-center hover:bg-white/30 transition">
+          <i class="fas fa-times text-white"></i>
+        </button>
+        <div class="flex items-center gap-3">
+          <div class="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center">
+            <i class="fas fa-graduation-cap text-2xl"></i>
+          </div>
+          <div>
+            <h3 class="text-xl font-bold">Enroll Now!</h3>
+            <p class="text-green-100 text-sm" id="modalCourse">Course details</p>
+          </div>
+        </div>
+      </div>
+      <div class="p-6">
+        <div class="bg-green-50 border border-green-200 rounded-xl p-4 mb-5">
+          <div class="flex items-center gap-3 mb-2">
+            <i class="fas fa-info-circle text-green-600 text-lg"></i>
+            <h4 class="font-semibold text-green-800">Enrollment Details</h4>
+          </div>
+          <div class="space-y-2 text-sm">
+            <p class="text-gray-700"><span class="font-medium">Course:</span> <span id="modalCourseName">-</span></p>
+            <p class="text-gray-700"><span class="font-medium">Board:</span> <span id="modalBoard">-</span></p>
+            <p class="text-gray-700"><span class="font-medium">Fees:</span> <span id="modalFees" class="font-bold text-green-700">-</span></p>
+          </div>
+        </div>
+        
+        <div class="bg-blue-50 border border-blue-200 rounded-xl p-5 text-center">
+          <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <i class="fas fa-phone-volume text-blue-600 text-2xl"></i>
+          </div>
+          <h4 class="text-lg font-bold text-gray-800 mb-2">Call Now for Better Assistance</h4>
+          <p class="text-2xl font-bold text-blue-700 mb-3" id="modalPhone">
+            <i class="fas fa-phone mr-2"></i>Phone number will be updated soon
+          </p>
+          <p class="text-gray-500 text-sm">Call now to this number for better assistance. We will guide you through the complete enrollment process.</p>
+        </div>
+
+        <div class="mt-5 flex gap-3">
+          <a id="whatsappLink" href="#" target="_blank" class="flex-1 bg-green-600 text-white py-3 rounded-xl font-semibold hover:bg-green-700 transition text-center text-sm">
+            <i class="fab fa-whatsapp mr-1"></i> WhatsApp
+          </a>
+          <a id="callLink" href="tel:" class="flex-1 bg-blue-600 text-white py-3 rounded-xl font-semibold hover:bg-blue-700 transition text-center text-sm">
+            <i class="fas fa-phone mr-1"></i> Direct Call
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====== FLOATING ENROLL BUTTON (Mobile) ====== -->
+  <div class="fixed bottom-6 right-6 z-40 md:hidden">
+    <button onclick="openEnrollModal('General Inquiry', 'Any Board', 'N/A')" class="pulse-btn bg-primary-600 text-white w-14 h-14 rounded-full shadow-2xl flex items-center justify-center hover:bg-primary-700 transition">
+      <i class="fas fa-user-plus text-xl"></i>
+    </button>
+  </div>
+
+  <!-- ====== JAVASCRIPT ====== -->
+  <script>
+    // Teacher phone number - UPDATE THIS with the actual number later
+    const TEACHER_PHONE = '+91 7439738968'; // e.g., '9876543210'
+
+    // Navbar scroll effect
+    window.addEventListener('scroll', function() {
+      const navbar = document.getElementById('navbar');
+      if (window.scrollY > 50) {
+        navbar.classList.add('nav-scrolled');
+      } else {
+        navbar.classList.remove('nav-scrolled');
+      }
+    });
+
+    // Mobile menu toggle
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    let menuOpen = false;
+
+    mobileMenuBtn.addEventListener('click', function() {
+      menuOpen = !menuOpen;
+      mobileMenu.classList.toggle('hidden');
+      mobileMenuBtn.innerHTML = menuOpen 
+        ? '<i class="fas fa-times"></i>' 
+        : '<i class="fas fa-bars"></i>';
+    });
+
+    function closeMobileMenu() {
+      menuOpen = false;
+      mobileMenu.classList.add('hidden');
+      mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+    }
+
+    // Enrollment Modal
+    function openEnrollModal(course, board, fees) {
+      document.getElementById('modalCourse').textContent = course + ' | ' + board;
+      document.getElementById('modalCourseName').textContent = course;
+      document.getElementById('modalBoard').textContent = board;
+      
+      if (fees === 'To be decided' || fees === 'As per distance & board' || fees === 'N/A') {
+        document.getElementById('modalFees').textContent = fees;
+      } else {
+        document.getElementById('modalFees').innerHTML = '&#8377;' + fees + ' per month';
+      }
+
+      if (TEACHER_PHONE) {
+        document.getElementById('modalPhone').innerHTML = '<i class="fas fa-phone mr-2"></i>' +917439738968;
+        document.getElementById('whatsappLink').href = 'https://wa.me/+917439738968?text=' + encodeURIComponent('Hello! I want to enroll for ' + course + ' (' + board + ')');
+        document.getElementById('callLink').href = 'tel:+917439738968';
+      } else {
+        document.getElementById('modalPhone').innerHTML = '<i class="fas fa-phone mr-2"></i>Phone number will be updated soon';
+        document.getElementById('whatsappLink').href = '#';
+        document.getElementById('callLink').href = '#';
+      }
+
+      document.getElementById('enrollModal').classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeEnrollModal() {
+      document.getElementById('enrollModal').classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    // Close modal on outside click
+    document.getElementById('enrollModal').addEventListener('click', function(e) {
+      if (e.target === this) closeEnrollModal();
+    });
+
+    // Close modal on Escape key
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') closeEnrollModal();
+    });
+
+    // Scroll animation (simple intersection observer)
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0)';
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('section').forEach(section => {
+      section.style.opacity = '0';
+      section.style.transform = 'translateY(30px)';
+      section.style.transition = 'all 0.6s ease-out';
+      observer.observe(section);
+    });
+
+    // Make hero always visible
+    document.getElementById('home').style.opacity = '1';
+    document.getElementById('home').style.transform = 'translateY(0)';
+  </script>
+</body>
+</html>`)
+})
+
+export default app
