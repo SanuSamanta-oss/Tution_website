@@ -807,6 +807,12 @@
     document.getElementById('home').style.opacity = '1';
     document.getElementById('home').style.transform = 'translateY(0)';
   </script>
+  <script>
+if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("sw.js")
+        .then(() => console.log("Service Worker Connected"));
+}
+</script>
 </body>
 </html>`)
 })
