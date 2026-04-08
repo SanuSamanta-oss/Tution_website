@@ -32,11 +32,6 @@
 | Class 5-9 (All Science) | Decided after consultation | Decided after consultation |
 | Distance Learning | Based on distance & board | Based on distance & board |
 
-## How to Update Phone Number
-In the file `src/index.tsx`, find the JavaScript section and update:
-```javascript
-const TEACHER_PHONE = ''; // Replace with actual number e.g., '9876543210'
-```
 
 ## URLs
 - **Preview**: Available via sandbox URL
